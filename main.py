@@ -32,11 +32,18 @@ def test_solution():
             value = action_button.get_attribute('value')
             print(value)
             action_button.click()
-        # time.sleep(5)
+    time.sleep(5)
 
-    watupro_choices_columns = browser.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
-    for column in watupro_choices_columns:
-        print(column.text)
+    watupro_quiz = browser.find_element(By.CSS_SELECTOR, 'div[id^=watupro_quiz]')
+    a = watupro_quiz.screenshot_as_png
+    # print(a)
+    with open(f'browser.png', 'wb') as f:
+        f.write(a)
+    #
+    # watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
+    # for column in watupro_choices_columns:
+    #     show_question_content = column.find_element(By.CSS_SELECTOR, 'div[class^=show-question-content]').find_element(By.CSS_SELECTOR, 'strong')
+    #     print(show_question_content.text)
 
     time.sleep(10)
 
