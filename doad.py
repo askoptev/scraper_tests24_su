@@ -58,3 +58,8 @@ def create_xl(data_list=[]):
     except Exception as err:
         return err
     return f'create file: {f_name}'
+
+# screenshot = item.screenshot_as_png
+# with open(f'browser_{inc}.png', 'wb') as f:
+#     f.write(screenshot)
+# inc += 1

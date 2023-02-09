@@ -1,7 +1,9 @@
 import csv
+import datetime
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from doad import create_xl, create_csv
 
 
 def test_solution():
@@ -25,28 +27,38 @@ def test_solution():
             value = button.get_attribute('value')
             print(value)
             button.click()
-            time.sleep(1)
+            # time.sleep(1)
         else:
             # если вопрос десятый, то нажимаю кнопку "Проверить ответы"
             action_button = browser.find_element(By.CSS_SELECTOR, 'input[id^=action-button]')
             value = action_button.get_attribute('value')
             print(value)
             action_button.click()
-    time.sleep(5)
+    time.sleep(1)
 
     watupro_quiz = browser.find_element(By.CSS_SELECTOR, 'div[id^=watupro_quiz]')
-    a = watupro_quiz.screenshot_as_png
-    # print(a)
-    with open(f'browser.png', 'wb') as f:
-        f.write(a)
-    #
-    # watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
-    # for column in watupro_choices_columns:
-    #     show_question_content = column.find_element(By.CSS_SELECTOR, 'div[class^=show-question-content]').find_element(By.CSS_SELECTOR, 'strong')
-    #     print(show_question_content.text)
+    watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
 
-    time.sleep(10)
+    # inc = 1
+    data_list = [[f'Билет №{index}']]
+    for item in watupro_choices_columns:
+        # вопрос
+        show_question_content = item.find_element(By.CSS_SELECTOR, 'div[class^=show-question-content]')
+        watupro_num = show_question_content.find_element(By.CSS_SELECTOR, 'span[class^=watupro_num]')
+        show_question_content = show_question_content.find_element(By.CSS_SELECTOR, 'strong')
+        data_list.append([str(watupro_num.text), str(show_question_content.text)])
+        # ответы
+        show_question_choices = item.find_element(By.CSS_SELECTOR, 'div[class^=show-question-choices]')
+        li = show_question_choices.find_elements(By.CSS_SELECTOR, 'li')
+        for l in li:
+            answer = l.find_element(By.CSS_SELECTOR, 'span[class^=answer]')
+            type_answer = l.get_attribute('class')
+            if type_answer == 'answer correct-answer' or type_answer == 'answer user-answer correct-answer':
+                data_list.append(['X', str(answer.text)])
+            else:
+                data_list.append(['', str(answer.text)])
 
+    create_xl(data_list)
     browser.close()
 
 
