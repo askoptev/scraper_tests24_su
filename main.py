@@ -10,15 +10,14 @@ def test_solution():
     browser = webdriver.Chrome()
     path = f'{url}{index}//'
     browser.get(path)
-    question_number = 1     # номер билета
 
     for i in range(1, 11):
         # последовательно забираю вопросы и нажимаю чек-бокс первого варианта ответа
-        question = browser.find_element(By.CSS_SELECTOR, f'div[id^=question-{question_number}')
-        block_questions = question.find_element(By.CSS_SELECTOR, 'div[class^=question-choices]')
-        block_questions.find_element(By.CSS_SELECTOR, 'input').click()
+        question = browser.find_element(By.CSS_SELECTOR, f'div[id^=question-{i}')
         print(f'[{i}]')
         print(question.text)
+        block_questions = question.find_element(By.CSS_SELECTOR, 'div[class^=question-choices]')
+        block_questions.find_element(By.CSS_SELECTOR, 'input').click()
         if i != 10:
             # если вопрос не десятый, то нажимаю кнопку "Следующий"
             next_question = browser.find_element(By.CSS_SELECTOR, 'div[id^=next-question]')
@@ -33,6 +32,12 @@ def test_solution():
             value = action_button.get_attribute('value')
             print(value)
             action_button.click()
+        # time.sleep(5)
+
+    watupro_choices_columns = browser.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
+    for column in watupro_choices_columns:
+        print(column.text)
+
     time.sleep(10)
 
     browser.close()
