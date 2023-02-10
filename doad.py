@@ -36,11 +36,11 @@ def create_csv(data_list=[]):
     return f'create file: {f_name}'
 
 
-def create_xl(data_list=[]):
+def create_xl(data_list=[], prefix='#'):
     """
     Create file Excel formats in to current directory
     """
-    f_name = f'result_{datetime.date.today()}.xlsx'
+    f_name = f'result_{datetime.date.today()}_{prefix}.xlsx'
     try:
         wb = openpyxl.Workbook()
         ws = wb.active
