@@ -59,6 +59,18 @@ def create_xl(data_list=[]):
         return err
     return f'create file: {f_name}'
 
+
+def append_csv(data_list=[]):
+    f_name = f'result_{datetime.date.today()}.csv'
+    try:
+        with open(f_name, "a", encoding="utf-8") as csvfile:
+            writer = csv.writer(csvfile, delimiter=';')
+            writer.writerows(data_list)
+    except Exception as err:
+        return err
+    return f'create file: {f_name}'
+
+
 # screenshot = item.screenshot_as_png
 # with open(f'browser_{inc}.png', 'wb') as f:
 #     f.write(screenshot)

@@ -40,12 +40,16 @@ def test_solution():
     watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
 
     # inc = 1
+    start_number_question = [0, 1, 11, 21, 31, 41, 51, 61, 71, 81, 91, 101, 111, 121, 131, 141, 151, 161, 171, 191, 121, 131, ]
+
     data_list = [[f'Билет №{index}']]
+    data_list_answer_question = []
     for item in watupro_choices_columns:
         # вопрос
         show_question_content = item.find_element(By.CSS_SELECTOR, 'div[class^=show-question-content]')
         watupro_num = show_question_content.find_element(By.CSS_SELECTOR, 'span[class^=watupro_num]')
         show_question_content = show_question_content.find_element(By.CSS_SELECTOR, 'strong')
+
         data_list.append([str(watupro_num.text), str(show_question_content.text)])
         # ответы
         show_question_choices = item.find_element(By.CSS_SELECTOR, 'div[class^=show-question-choices]')
@@ -62,5 +66,19 @@ def test_solution():
     browser.close()
 
 
+def generator_number_question():
+    """
+    Генерирует словарь для сквозной нумерации вопросов из всех билетов
+    номер билета - это позиция в списке с началом нумерации вопросов
+    например: Билет №3 generator_number_question[3] => 31
+    """
+    result = [0]
+    for i in range(1, 1000, 10):
+        result.append(i)
+    return result
+
+
 if __name__ == '__main__':
-    test_solution()
+    # test_solution()
+    start_number_question = generator_number_question()
+    print(start_number_question)
