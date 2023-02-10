@@ -3,7 +3,7 @@ import datetime
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from doad import create_xl, create_csv
+from doad import create_xl, create_csv, append_xl
 
 
 def test_solution():
@@ -71,6 +71,7 @@ def test_solution():
 
         create_xl(data_list, f'ticket_{index}')
         create_xl(data_list_answer_question, f'{index}')
+        append_xl(data_list_answer_question, f'append')
         browser.close()
     create_xl(all_data, f'all')
 

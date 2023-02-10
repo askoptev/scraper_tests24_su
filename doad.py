@@ -57,6 +57,26 @@ def create_xl(data_list=[], prefix='#'):
         wb.save(f_name)
     except Exception as err:
         return err
+
+    return f'create file: {f_name}'
+
+
+def append_xl(data_list=[], prefix='#'):
+    """
+    Добавить данные в существующую книгу
+    :param data_list:
+    :param prefix:
+    :return:
+    """
+    f_name = f'result_{datetime.date.today()}_{prefix}.xlsx'
+    try:
+        wb = openpyxl.load_workbook('test.xlsx')
+        ws = wb.active
+        for row in data_list:
+            ws.append(row)
+        wb.save(f_name)
+    except Exception as err:
+        return err
     return f'create file: {f_name}'
 
 
@@ -69,7 +89,6 @@ def append_csv(data_list=[]):
     except Exception as err:
         return err
     return f'create file: {f_name}'
-
 
 # screenshot = item.screenshot_as_png
 # with open(f'browser_{inc}.png', 'wb') as f:
