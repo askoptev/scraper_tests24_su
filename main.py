@@ -7,6 +7,9 @@ from doad import create_xl, create_csv, append_xl
 
 
 def test_solution(var: int):
+    """
+    Парсит сайт tests24.su
+    """
     list_url = {
         1: 'https://tests24.su/eb-1254-15-bilet-',
         2: 'https://tests24.su/eb-1255-15-bilet-',
