@@ -6,10 +6,37 @@ from selenium.webdriver.common.by import By
 from doad import create_xl, create_csv, append_xl
 
 
-def test_solution():
-    url = 'https://tests24.su/eb-1260-16-bilet-'
+def test_solution(var: int):
+    list_url = {
+        1: 'https://tests24.su/eb-1254-15-bilet-',
+        2: 'https://tests24.su/eb-1255-15-bilet-',
+        3: 'https://tests24.su/eb-1256-15-bilet-',
+        4: 'https://tests24.su/eb-1257-14-bilet-',
+        5: 'https://tests24.su/eb-1258-15-bilet-',
+        6: 'https://tests24.su/eb-1259-15-bilet-',
+        7: 'https://tests24.su/eb-1260-17-bilet-',
+    }
+    list_value_tickets = {
+        1: 10,
+        2: 10,
+        3: 22,
+        4: 24,
+        5: 30,
+        6: 39,
+        7: 41,
+    }
+    groups = {
+        1: '2_low',
+        2: '2_high',
+        3: '3_low',
+        4: '3_high',
+        5: '4_low',
+        6: '4_high',
+        7: '5_high',
+    }
+    url = list_url[var]
     all_data = []
-    for j in range(1, 33):
+    for j in range(1, list_value_tickets[var] + 1):
         index = j
         browser = webdriver.Chrome()
         path = f'{url}{index}//'
@@ -37,9 +64,12 @@ def test_solution():
                 print(value)
                 action_button.click()
         time.sleep(1)
-
-        watupro_quiz = browser.find_element(By.CSS_SELECTOR, 'div[id^=watupro_quiz]')
-        watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
+        try:
+            watupro_quiz = browser.find_element(By.CSS_SELECTOR, 'div[id^=watupro_quiz]')
+            watupro_choices_columns = watupro_quiz.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
+        except Exception as er:
+            print(er)
+            watupro_choices_columns = browser.find_elements(By.CSS_SELECTOR, 'div[class^=watupro-choices-columns]')
 
         inc = 0
         start_number_question = generator_number_question()
@@ -69,11 +99,11 @@ def test_solution():
                 else:
                     data_list.append(['', str(answer.text)])
 
-        create_xl(data_list, f'ticket_{index}')
-        create_xl(data_list_answer_question, f'{index}')
-        append_xl(data_list_answer_question, f'append')
+        create_xl(data_list, f'ticket_{groups[var]}_{index}')
+        # create_xl(data_list_answer_question, f'{groups[var]}_{index}')
+        # append_xl(data_list_answer_question, f'append')
         browser.close()
-    create_xl(all_data, f'all')
+    # create_xl(all_data, f'all')
 
 
 def generator_number_question():
@@ -89,4 +119,17 @@ def generator_number_question():
 
 
 if __name__ == '__main__':
-    test_solution()
+    choise = """
+    Выберите необходимую группу:
+    1. II группа до 1000В
+    2. II группа до и выше 1000В   
+    3. III группа до 1000В 
+    4. III группа до и выше 1000В
+    5. IV группа до 1000В 
+    6. IV группа до и выше 1000В
+    7. V группа до и выше 1000В    
+    """
+    print(choise)
+    var = input()
+    var = int(var)
+    test_solution(var=var)
